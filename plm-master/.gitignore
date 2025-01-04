@@ -1,0 +1,7 @@
+node_modules
+uploads
+.DS_Store
+package-lock.json
+.env
+.idea/workspace.xml
+TODO-order.txt
