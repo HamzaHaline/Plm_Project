@@ -1,16 +1,11 @@
 import React from 'react';
 import Paper from 'material-ui/Paper';
-import { DatePicker, DatePickerInput } from 'rc-datepicker';
-import 'rc-datepicker/lib/style.css';
-import PropTypes from 'prop-types';
-import { Container, Row, Col } from 'reactstrap';
-import {Link} from 'react-router-dom';
+import { DateTimePicker } from 'material-ui-pickers';
 import {
   FilteringState,
   IntegratedFiltering,
   IntegratedSorting,
   SortingState,
-  EditingState,
 } from '@devexpress/dx-react-grid';
 import {
   PagingState,
@@ -20,102 +15,22 @@ import {
   Grid,
   Table,
   TableHeaderRow,
-  TableEditRow,
   TableFilterRow,
-  TableEditColumn,
-  TableColumnReordering,
   PagingPanel,
 } from '@devexpress/dx-react-grid-material-ui';
-
-import {EditButton,CommitButton,CancelButton} from '../vendors/Buttons.js';
-import Button from 'material-ui/Button';
-import * as logActions from '../../interface/logInterface';
-import * as ingredientActions from '../../interface/ingredientInterface';
-
-import { PureComponent, Fragment } from 'react';
-import { IconButton, Icon, InputAdornment } from 'material-ui';
-import {  DateTimePicker } from 'material-ui-pickers';
 import KeyboardArrowLeft from 'material-ui-icons/KeyboardArrowLeft';
 import KeyboardArrowRight from 'material-ui-icons/KeyboardArrowRight';
 import DateRangeIcon from 'material-ui-icons/DateRange';
 import AccessTimeIcon from 'material-ui-icons/AccessTime';
 import KeyboardIcon from 'material-ui-icons/Keyboard';
 import PubSub from 'pubsub-js';
+import * as logActions from '../../interface/logInterface';
 
-//TODO: get user data
-// const sessionId = testConfig.sessionId;
-var pickerStyle = {
-  color: 'white',
-  width: '160px'
-};
-
-var sessionId = "";
-
-var isAdmin =  "";
-// JSON.parse(sessionStorage.getItem('user')).isAdmin;
-
-const Cell = (props)=>{
-  if(props.column.name=="item" && props.row.model == 'ingredients' && props.row.action!='delete'){
-    return <Table.Cell {...props}>
-    <Link to={{pathname: '/ingredient-details', state:{ingredientId: props.row.itemId, fromLogs: true} }}>{props.row.item}</Link>
-    </Table.Cell>
-  }else if(props.column.name=="item" && props.row.model == 'formulas' && props.row.action!='delete'){
-    return <Table.Cell {...props}>
-    <Link to={{pathname: '/formula-details', state:{formulaId: props.row.itemId, fromLogs: true} }}>{props.row.item}</Link>
-    </Table.Cell>
-  }
-  return <Table.Cell {...props}
-    style={{
-        whiteSpace: "normal",
-        wordWrap: "break-word"
-      }}/>
-};
-
-Cell.propTypes = {
-  column: PropTypes.shape({ name: PropTypes.string }).isRequired,
-};
-
-//const EditCell = (props) => {
-//  if(props.column.name == 'capacity'){
-//    return <TableEditRow.Cell {...props} />;
-//  };
-//  return <Cell {...props} />;
-//};
-//
-//EditCell.propTypes = {
-//  column: PropTypes.shape({ name: PropTypes.string }).isRequired,
-//};
-
-//const commandComponents = {
-//  edit:    EditButton,
-//  commit:  CommitButton,
-//  cancel:  CancelButton,
-//};
-
-//const Command = ({ id, onExecute }) => {
-//  const CommandButton = commandComponents[id];
-//  return (
-//    <CommandButton
-//      onExecute={onExecute}
-//    />
-//  );
-//};
-//Command.propTypes = {
-//  id: PropTypes.string.isRequired,
-//  onExecute: PropTypes.func.isRequired,
-//};
-
-const datePredicate = (value, filter) => {
-    console.log(value);
-    value > this.state.startDate
-}
-
-const getRowId = row => row.id;
+const getRowId = (row) => row.id;
 
 class Log extends React.PureComponent {
   constructor(props) {
     super(props);
-
     this.state = {
       columns: [
         { name: 'username', title: 'Username' },
@@ -124,230 +39,213 @@ class Log extends React.PureComponent {
         { name: 'item', title: 'Entity' },
         { name: 'date', title: 'Timestamp' },
       ],
-      integratedFilteringColumnExtensions: [
-        { columnName: 'date', predicate: datePredicate },
-      ],
-      rows:[],
-      sorting: [{ columnName: 'date', direction: 'desc' }],
+      rows: [],
       unchangedRows: [],
-      dates: [],
-      startDate: new Date(2018, 0, 1, 0, 0, 0, 0),
-      endDate: new Date(2018, 11, 31, 23, 59, 59, 0),
+      sorting: [{ columnName: 'date', direction: 'desc' }],
+      startDate: new Date(2025, 0, 1, 0, 0, 0, 0),
+      endDate: new Date(2025, 11, 31, 23, 59, 59, 0),
       currentPage: 0,
       pageSize: 10,
       pageSizes: [10, 50, 100, 500],
-      //filters: [{ columnName: 'date', value: this.startDate }],
-      //editingRowIds: [],
-      //rowChanges: {},
     };
-    this.changeSorting = sorting => this.setState({ sorting });
-    this.changeCurrentPage = currentPage => this.setState({ currentPage });
-    this.changePageSize = pageSize => this.setState({ pageSize });
-    //this.changeFilters = filters => this.setState({ filters });
-
-    this.handleStartDateChange = (date) => {
-      console.log("handleStartDateChange");
-      console.log(date);
-      console.log(this.state.endDate);
-      var endDate = this.state.endDate;
-
-      if(this.state.endDate._d){
-        endDate = this.state.endDate._d;
-      }
-      
-      if(Date.parse(date._d) >  Date.parse(endDate)){
-        PubSub.publish('showAlert', "Start date must be earlier than end date.");
-      }else{
-        this.setState({
-          startDate: date
-        }, function(){
-          console.log(this.state.startDate);
-          var newRows = [];
-          for (var i = 0; i<this.state.unchangedRows.length; i++) {
-                var date2 = this.state.unchangedRows[i].date;
-                var year = date2.slice(0, 4);
-                var month = date2.slice(5, 7);
-                var day = date2.slice(8, 10);
-                var hours = date2.slice(11, 13);
-                var minutes = date2.slice(14, 16);
-                var seconds = date2.slice(17, 19);
-                var milliseconds = date2.slice(20, 22);
-                var tempDate = new Date(year, month - 1, day, hours, minutes, seconds, milliseconds);
-                var tempTime = tempDate.getTime();
-                if(tempTime>=date && tempTime<=this.state.endDate){
-                  newRows.push(this.state.unchangedRows[i]);
-                }
-          }
-          this.setState({
-              rows: newRows
-          });
-        });
-      }
-    }
-    
-    this.handleEndDateChange = (date) => {
-       console.log("handleEndDateChange");
-       console.log(date);
-       console.log(this.state.startDate);
-
-       var startDate = this.state.startDate;
-
-       if(this.state.startDate._d){
-         startDate = this.state.startDate._d;
-       }
-
-       if(Date.parse(date._d) < Date.parse(startDate)){
-         PubSub.publish('showAlert', "End date must be later than start date.");
-       }else{
-        this.setState({
-          endDate: date
-        }, function(){
-          console.log(this.state.startDate);
-          var newRows = [];
-          for (var i = 0; i<this.state.unchangedRows.length; i++) {
-                var date2 = this.state.unchangedRows[i].date;
-                var year = date2.slice(0, 4);
-                var month = date2.slice(5, 7);
-                var day = date2.slice(8, 10);
-                var hours = date2.slice(11, 13);
-                var minutes = date2.slice(14, 16);
-                var seconds = date2.slice(17, 19);
-                var milliseconds = date2.slice(20, 22);
-                var tempDate = new Date(year, month - 1, day, hours, minutes, seconds, milliseconds);
-                var tempTime = tempDate.getTime();
-                if(tempTime<=date && tempTime>=this.state.startDate){
-                  newRows.push(this.state.unchangedRows[i]);
-                }
-          }
-          this.setState({
-              rows: newRows
-          });
-        });
-       }
-    }    
-  }
-
-  componentWillMount(){
-    isAdmin = JSON.parse(sessionStorage.getItem('user')).isAdmin;
   }
 
   componentDidMount() {
     this.loadLogInfo();
   }
 
-  async loadLogInfo(){
-      var rawData = [];
-      sessionId = JSON.parse(sessionStorage.getItem('user'))._id;
-      rawData = await logActions.getAllLogsAsync(sessionId);
-      if(rawData){
-        rawData = rawData.reverse();
-      }
-      
-      var tempDates = [];
-       for (var i = 0; i<rawData.length; i++) {
-           var date = rawData[i].date;
+  async loadLogInfo() {
+    const sessionId = JSON.parse(sessionStorage.getItem('user'))._id;
+    let rawData = await logActions.getAllLogsAsync(sessionId);
 
-           var year = date.slice(0, 4);
-           var month = date.slice(5, 7);
-           var day = date.slice(8, 10);
-           var hours = date.slice(11, 13);
-           var minutes = date.slice(14, 16);
-           var seconds = date.slice(17, 19);
-           var milliseconds = date.slice(20, 22);
-           tempDates[i] = new Date(year, month - 1, day, hours, minutes, seconds, milliseconds);
-           rawData[i].date = date.replace('T',' ').replace('Z',' ');
-       }
-       var processedData = [];
-       if(rawData){
-        processedData = [...rawData.map((row, index)=> ({
-           id:index,...row,
-         })),
-        ];
-       }
+    if (rawData) {
+      rawData = rawData.reverse();
+    }
 
-       this.setState({dates:tempDates});
-       this.setState({rows:processedData});
-       this.setState({unchangedRows:processedData});
+    const processedData = rawData.map((row, index) => ({
+      id: index,
+      ...row,
+      date: row.date.replace('T', ' ').replace('Z', ' '),
+    }));
+
+    this.setState({ rows: processedData, unchangedRows: processedData });
   }
 
+  handleStartDateChange = (date) => {
+    const { endDate, unchangedRows } = this.state;
+    if (Date.parse(date) > Date.parse(endDate)) {
+      PubSub.publish('showAlert', 'Start date must be earlier than end date.');
+    } else {
+      this.setState({ startDate: date }, () => {
+        this.filterRows();
+      });
+    }
+  };
+
+  handleEndDateChange = (date) => {
+    const { startDate, unchangedRows } = this.state;
+    if (Date.parse(date) < Date.parse(startDate)) {
+      PubSub.publish('showAlert', 'End date must be later than start date.');
+    } else {
+      this.setState({ endDate: date }, () => {
+        this.filterRows();
+      });
+    }
+  };
+
+  filterRows = () => {
+    const { unchangedRows, startDate, endDate } = this.state;
+    const filteredRows = unchangedRows.filter((row) => {
+      const rowDate = new Date(row.date);
+      return rowDate >= startDate && rowDate <= endDate;
+    });
+    this.setState({ rows: filteredRows });
+  };
+
   render() {
-    // const {classes} = this.props;
-    const { integratedFilteringColumnExtensions, rows,columns, dates, startDate, endDate, filters, unchangedRows, 
-      pageSize, pageSizes, currentPage, sorting} = this.state;
+    const {
+      rows,
+      columns,
+      startDate,
+      endDate,
+      pageSize,
+      pageSizes,
+      currentPage,
+      sorting,
+    } = this.state;
 
     return (
-      <div>
-      <p><b><font size="6" color="3F51B5">Logs</font></b></p> 
-      <Paper>
-
-      <Fragment>
-        <br/>
-        <span style={{marginLeft: 20}}><font size="4">Please specify a date range:</font></span> 
-        <br/>
-        <br/>
-        <div style={{marginLeft: 40}}>
-          <span><font size="4">Start Date: </font></span>
-            <DateTimePicker
+      <div style={{ padding: '20px', backgroundColor: '#f9f9f9', minHeight: '100vh' }}>
+        <p
+          style={{
+            fontSize: '28px',
+            fontWeight: 'normal',
+            color: '#DAA520',
+            margin: '20px 0',
+            textTransform: 'uppercase',
+            textShadow: '1px 1px 2px rgba(0, 0, 0, 0.3)',
+          }}
+        >
+          Logs
+        </p>
+        <Paper
+          style={{
+            padding: '20px',
+            borderRadius: '10px',
+            boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
+            backgroundColor: '#fff',
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              marginBottom: '20px',
+            }}
+          >
+            <div style={{ marginRight: '40px' }}>
+              <span
+                style={{
+                  fontSize: '16px',
+                  fontWeight: 'bold',
+                  color: '#333',
+                }}
+              >
+                Start Date:{' '}
+              </span>
+              <DateTimePicker
                 value={startDate}
                 onChange={this.handleStartDateChange}
-                leftArrowIcon={<KeyboardArrowLeft/>}
-                rightArrowIcon={<KeyboardArrowRight/>}
-                dateRangeIcon={<DateRangeIcon/>}
-                timeIcon={<AccessTimeIcon/>}
-                keyboardIcon={<KeyboardIcon/>}
-              />
-    
-             <span style={{marginLeft: 10}}><font size="4">End Date: </font></span>
-            <DateTimePicker
-                value={endDate}
-                onChange={this.handleEndDateChange}
-                leftArrowIcon={<KeyboardArrowLeft/>}
-                rightArrowIcon={<KeyboardArrowRight/>}
-                dateRangeIcon={<DateRangeIcon/>}
-                timeIcon={<AccessTimeIcon/>}
-                keyboardIcon={<KeyboardIcon/>}
-                style={{width:190}}
+                leftArrowIcon={<KeyboardArrowLeft />}
+                rightArrowIcon={<KeyboardArrowRight />}
+                dateRangeIcon={<DateRangeIcon />}
+                timeIcon={<AccessTimeIcon />}
+                keyboardIcon={<KeyboardIcon />}
+                style={{
+                  width: '200px',
+                  border: '1px solid #ccc',
+                  borderRadius: '5px',
+                  padding: '5px',
+                  backgroundColor: '#f7f7f7',
+                }}
               />
             </div>
-          <br/>
-
-      {/* </MuiPickersUtilsProvider> */}
-      </Fragment>
-        <Grid
-          allowColumnResizing = {true}
-          rows={rows}
-          columns={columns}
-          getRowId={getRowId}
-        >
-          <FilteringState defaultFilters={[]} />
-          <IntegratedFiltering />
-          <SortingState
-            sorting={sorting}
-            onSortingChange={this.changeSorting}
-          />
-          <PagingState
-            currentPage={currentPage}
-            onCurrentPageChange={this.changeCurrentPage}
-            pageSize={pageSize}
-            onPageSizeChange={this.changePageSize}
-          />
-          <IntegratedSorting />
-          <IntegratedPaging />
-          <Table cellComponent={Cell}/>
-          <TableHeaderRow showSortingControls/>
-          <TableFilterRow />
-          <PagingPanel
-            pageSizes={pageSizes}
-          />
-        </Grid>
-      </Paper>
+            <div>
+              <span
+                style={{
+                  fontSize: '16px',
+                  fontWeight: 'bold',
+                  color: '#333',
+                }}
+              >
+                End Date:{' '}
+              </span>
+              <DateTimePicker
+                value={endDate}
+                onChange={this.handleEndDateChange}
+                leftArrowIcon={<KeyboardArrowLeft />}
+                rightArrowIcon={<KeyboardArrowRight />}
+                dateRangeIcon={<DateRangeIcon />}
+                timeIcon={<AccessTimeIcon />}
+                keyboardIcon={<KeyboardIcon />}
+                style={{
+                  width: '200px',
+                  border: '1px solid #ccc',
+                  borderRadius: '5px',
+                  padding: '5px',
+                  backgroundColor: '#f7f7f7',
+                }}
+              />
+            </div>
+          </div>
+          <Grid rows={rows} columns={columns} getRowId={getRowId}>
+            <FilteringState defaultFilters={[]} />
+            <IntegratedFiltering />
+            <SortingState sorting={sorting} onSortingChange={(sorting) => this.setState({ sorting })} />
+            <PagingState
+              currentPage={currentPage}
+              onCurrentPageChange={(currentPage) => this.setState({ currentPage })}
+              pageSize={pageSize}
+              onPageSizeChange={(pageSize) => this.setState({ pageSize })}
+            />
+            <IntegratedSorting />
+            <IntegratedPaging />
+            <Table
+              cellComponent={(props) => (
+                <Table.Cell
+                  {...props}
+                  style={{
+                    borderBottom: '1px solid #ddd',
+                    padding: '10px',
+                    fontSize: '14px',
+                    textAlign: 'center',
+                  }}
+                />
+              )}
+            />
+            <TableHeaderRow
+              showSortingControls
+              cellComponent={(props) => (
+                <TableHeaderRow.Cell
+                  {...props}
+                  style={{
+                    backgroundColor: '#DAA520',
+                    color: '#fff',
+                    fontWeight: 'bold',
+                    fontSize: '16px',
+                    textAlign: 'center',
+                    padding: '10px',
+                  }}
+                />
+              )}
+            />
+            <TableFilterRow />
+            <PagingPanel pageSizes={pageSizes} />
+          </Grid>
+        </Paper>
       </div>
     );
   }
 }
-
-// Storage.propTypes = {
-//   classes: PropTypes.object.isRequired,
-// };
 
 export default Log;

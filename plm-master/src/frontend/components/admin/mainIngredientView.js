@@ -45,7 +45,18 @@ class MainIngredientView extends React.Component {
 
     return (
       <div className={classes.root}>
-      <p><b><font size="6" color="3F51B5">Ingredients</font></b></p>
+        <p
+          style={{
+            fontSize: '28px',
+            fontWeight: 'normal',
+            color: '#DAA520',
+            margin: '20px 0',
+            textTransform: 'uppercase',
+            textShadow: '1px 1px 2px rgba(0, 0, 0, 0.3)',
+          }}
+        >
+          Ingredients
+        </p>
         <AppBar position="static" color="default">
           <Tabs
             value={value}

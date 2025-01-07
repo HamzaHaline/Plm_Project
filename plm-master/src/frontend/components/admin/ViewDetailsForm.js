@@ -536,10 +536,23 @@ class AddIngredientForm extends React.Component{
       <div>
       <form onSubmit={this.onFormSubmit} style={styles.formControl}>
         {(this.state.isCreateNew) ? 
-          <p><b><font size="6" color="3F51B5">New Ingredient</font></b></p> :
+            <p
+            style={{
+              fontSize: '28px', // Larger font size
+              fontWeight: 'normal', // Normal font weight
+              color: '#DAA520', // Gold color
+              textTransform: 'uppercase', // Make it uppercase
+              textShadow: '1px 1px 2px rgba(0, 0, 0, 0.3)', // Subtle shadow
+              textAlign: 'left', // Align text to the left
+              marginLeft: '20px', // Add left margin for spacing
+            }}
+          >
+            New Ingredient
+          </p>
+         :
           <p><b><font size="6" color="3F51B5">Ingredient Details {(this.state.numUnit!=0)? <Chip label="In Stock"/> : ''} </font></b></p>
         }
-        <p><font size="5">Basic Information</font></p>
+        
         {/* {this.state.snackBarOpen && <SnackBarDisplay
               open = {this.state.snackBarOpen}
               message = {this.state.snackBarMessage}
@@ -690,20 +703,72 @@ class AddIngredientForm extends React.Component{
                   margin="normal"
                 />
               </FormGroup></div>}
-              <div style={styles.buttons}>
-                {(this.state.isDisabled && isAdmin) && <RaisedButton raised color = "secondary" onClick={()=>{this.setState({isDisabled:false});}} >EDIT</RaisedButton>}
-                {(!this.state.isDisabled) && <RaisedButton raised
-                          color="primary"
-                          // className=classes.button
-                          style={styles.saveButton}
-                          type="Submit"
-                          primary="true"> {(this.state.isCreateNew)? 'ADD' : 'SAVE'} </RaisedButton>}
-                <RaisedButton color="default"
-                  component={Link} to='/admin-ingredients'
-                  style = {{marginLeft: 10}}
+              <div style={{ textAlign: 'left', marginTop: '20px' }}>
+                {(this.state.isDisabled && isAdmin) && (
+                  <RaisedButton
+                    raised
+                    style={{
+                      backgroundColor: '#DAA520', // Gold background
+                      color: '#fff', // White text
+                      borderRadius: '5px',
+                      padding: '10px 20px',
+                      fontWeight: 'bold',
+                      fontSize: '14px',
+                      boxShadow: '0 4px 6px rgba(0, 0, 0, 0.2)',
+                      marginRight: '10px',
+                      transition: 'all 0.3s ease',
+                    }}
+                    onMouseOver={(e) => (e.currentTarget.style.backgroundColor = '#F7E7CE')} // Lighter gold on hover
+                    onMouseOut={(e) => (e.currentTarget.style.backgroundColor = '#DAA520')} // Reset gold
+                    onClick={() => {
+                      this.setState({ isDisabled: false });
+                    }}
+                  >
+                    EDIT
+                  </RaisedButton>
+                )}
+                {(!this.state.isDisabled) && (
+                  <RaisedButton
+                    raised
+                    style={{
+                      backgroundColor: '#DAA520', // Gold background
+                      color: '#fff', // White text
+                      borderRadius: '5px',
+                      padding: '10px 20px',
+                      fontWeight: 'bold',
+                      fontSize: '14px',
+                      boxShadow: '0 4px 6px rgba(0, 0, 0, 0.2)',
+                      marginRight: '10px',
+                      transition: 'all 0.3s ease',
+                    }}
+                    onMouseOver={(e) => (e.currentTarget.style.backgroundColor = '#F7E7CE')} // Lighter gold on hover
+                    onMouseOut={(e) => (e.currentTarget.style.backgroundColor = '#DAA520')} // Reset gold
+                    type="Submit"
+                    primary="true"
+                  >
+                    {(this.state.isCreateNew) ? 'ADD' : 'SAVE'}
+                  </RaisedButton>
+                )}
+                <RaisedButton
                   raised
-                  > BACK </RaisedButton>
-             </div>
+                  style={{
+                    backgroundColor: '#DAA520', // Gold background
+                    color: '#fff', // White text
+                    borderRadius: '5px',
+                    padding: '10px 20px',
+                    fontWeight: 'bold',
+                    fontSize: '14px',
+                    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.2)',
+                    transition: 'all 0.3s ease',
+                  }}
+                  onMouseOver={(e) => (e.currentTarget.style.backgroundColor = '#F7E7CE')} // Lighter gold on hover
+                  onMouseOut={(e) => (e.currentTarget.style.backgroundColor = '#DAA520')} // Reset gold
+                  component={Link}
+                  to="/admin-ingredients"
+                >
+                  BACK
+                </RaisedButton>
+              </div>
            </form>
            {fireRedirect && (
              <Redirect to={'/admin-ingredients'}/>

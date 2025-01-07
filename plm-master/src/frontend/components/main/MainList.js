@@ -8,12 +8,12 @@ import {Link} from 'react-router-dom';
 import DashboardIcon from 'material-ui-icons/Dashboard'; //Dashboard
 import KitchenIcon from 'material-ui-icons/Kitchen'; //Storage
 import InventoryIcon from 'material-ui-icons/Assignment';//Inventory
-import LocalPizzaIcon from 'material-ui-icons/LocalPizza'; //Ingredients
+import ColorizeIcon from '@material-ui/icons/Colorize'; //Ingredients
 import VendorsIcon from 'material-ui-icons/Group'; // Vendors
 import ShoppingCartIcon from 'material-ui-icons/ShoppingCart'; // Cart
 import ReportIcon from 'material-ui-icons/Receipt'; // Report
 import BugReportIcon from 'material-ui-icons/BugReport'; // Logs
-import RestaurantIcon from 'material-ui-icons/Restaurant';
+import HourglassFullIcon from '@material-ui/icons/HourglassFull';
 import HistoryIcon from 'material-ui-icons/History';
 import BalanceIcon from 'material-ui-icons/AccountBalance';
 import DistributionIcon from 'material-ui-icons/DeviceHub';
@@ -26,12 +26,13 @@ import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import Collapse from 'material-ui/transitions/Collapse';
 import ExpandLess from 'material-ui-icons/ExpandLess';
 import ExpandMore from 'material-ui-icons/ExpandMore';
+import FunctionsIcon from '@material-ui/icons/Functions';
 
 const styles = theme => ({
   menuItem: {
     '&:focus': {
-      backgroundColor: theme.palette.primary.main,
-      '& $primary, & $icon': {
+      backgroundColor: 
+      '#D4AF37','& $primary, & $icon': {
         color: theme.palette.common.white,
       },
     },
@@ -84,7 +85,7 @@ class MainList extends React.Component{
 
           <MenuItem className={classes.menuItem} component={Link} to="/admin-ingredients" button>
             <ListItemIcon className={classes.icon}>
-              <LocalPizzaIcon />
+              <ColorizeIcon />
             </ListItemIcon>
             <ListItemText classes={{ primary: classes.primary }} inset primary="Ingredients" />
           </MenuItem>
@@ -109,9 +110,9 @@ class MainList extends React.Component{
 
           <MenuItem className={classes.menuItem} component={Link} to="/formula" button>
             <ListItemIcon className={classes.icon}>
-              <RestaurantIcon />
+              <FunctionsIcon />
             </ListItemIcon>
-            <ListItemText classes={{ primary: classes.primary }} inset primary="Formula" />
+            <ListItemText classes={{ primary: classes.primary }} inset primary="Fragrance Formula" />
           </MenuItem>
 
           <MenuItem className={classes.menuItem} component={Link} to="/production-line" button>
@@ -123,7 +124,7 @@ class MainList extends React.Component{
 
           <MenuItem className={classes.menuItem} component={Link} to="/product" button>
             <ListItemIcon className={classes.icon}>
-              <HistoryIcon />
+              <HourglassFullIcon />
             </ListItemIcon>
             <ListItemText classes={{ primary: classes.primary }} inset primary="Productions" />
           </MenuItem>
@@ -146,31 +147,109 @@ class MainList extends React.Component{
             <ListItemIcon className={classes.icon}>
               <ReportIcon />
             </ListItemIcon>
-            <ListItemText classes={{ primary: classes.primary }} inset primary="Reports" />
+            <ListItemText classes={{ primary: classes.primary }} inset primary="KPIs" />
             {this.state.open ? <ExpandLess /> : <ExpandMore />}
+          
           </MenuItem>
-           <Collapse in={this.state.open} timeout="auto" unmountOnExit>
-              <List component="div" disablePadding>
-                <ListItem button className={classes.nested} component={Link} to="/report-financial" button>
-                  <ListItemIcon className={classes.icon}>
-                    <AttachMoneyIcon />
-                  </ListItemIcon>
-                  <ListItemText classes={{ primary: classes.primary }} inset primary="Financial" />
-                </ListItem>
-                <ListItem button className={classes.nested} component={Link} to="/report-freshness" button>
-                  <ListItemIcon className={classes.icon}>
-                    <TimerIcon />
-                  </ListItemIcon>
-                  <ListItemText classes={{ primary: classes.primary }} inset primary="Freshness" />
-                </ListItem>
-                <ListItem button className={classes.nested} component={Link} to="/report-tracking" button>
-                  <ListItemIcon className={classes.icon}>
-                    <AssessmentIcon />
-                  </ListItemIcon>
-                  <ListItemText classes={{ primary: classes.primary }} inset primary="Tracking" />
-                </ListItem>
-              </List>
-            </Collapse>
+          <Collapse in={this.state.open} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              {/* Financial */}
+              <ListItem
+                button
+                className={classes.nested}
+                component={Link}
+                to="/report-financial"
+                style={{
+                  backgroundColor: 'transparent',
+                  borderRadius: '5px',
+                  color: '#D4AF37', // Gold text color
+                  transition: 'all 0.3s ease',
+                }}
+                onMouseOver={(e) => (e.currentTarget.style.backgroundColor = '#F7E7CE')} // Lighter gold on hover
+                onMouseOut={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
+              >
+                <ListItemIcon
+                  className={classes.icon}
+                  style={{
+                    color: '#D4AF37', // Gold icon color
+                  }}
+                >
+                  <AttachMoneyIcon />
+                </ListItemIcon>
+                <ListItemText
+                  inset
+                  primary="Financial"
+                  style={{
+                    color: '#D4AF37', // Ensure gold text color
+                  }}
+                />
+              </ListItem>
+
+              {/* Freshness */}
+              <ListItem
+                button
+                className={classes.nested}
+                component={Link}
+                to="/report-freshness"
+                style={{
+                  backgroundColor: 'transparent',
+                  borderRadius: '5px',
+                  color: '#D4AF37', // Gold text color
+                  transition: 'all 0.3s ease',
+                }}
+                onMouseOver={(e) => (e.currentTarget.style.backgroundColor = '#F7E7CE')} // Lighter gold on hover
+                onMouseOut={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
+              >
+                <ListItemIcon
+                  className={classes.icon}
+                  style={{
+                    color: '#D4AF37', // Gold icon color
+                  }}
+                >
+                  <TimerIcon />
+                </ListItemIcon>
+                <ListItemText
+                  inset
+                  primary="Freshness"
+                  style={{
+                    color: '#D4AF37', // Ensure gold text color
+                  }}
+                />
+              </ListItem>
+
+              {/* Tracking */}
+              <ListItem
+                button
+                className={classes.nested}
+                component={Link}
+                to="/report-tracking"
+                style={{
+                  backgroundColor: 'transparent',
+                  borderRadius: '5px',
+                  color: '#D4AF37', // Gold text color
+                  transition: 'all 0.3s ease',
+                }}
+                onMouseOver={(e) => (e.currentTarget.style.backgroundColor = '#F7E7CE')} // Lighter gold on hover
+                onMouseOut={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
+              >
+                <ListItemIcon
+                  className={classes.icon}
+                  style={{
+                    color: '#D4AF37', // Gold icon color
+                  }}
+                >
+                  <AssessmentIcon />
+                </ListItemIcon>
+                <ListItemText
+                  inset
+                  primary="Tracking"
+                  style={{
+                    color: '#D4AF37', // Ensure gold text color
+                  }}
+                />
+              </ListItem>
+            </List>
+          </Collapse>
 
           {(isManager || isAdmin) &&
           <MenuItem className={classes.menuItem} component={Link} to="/log" button>

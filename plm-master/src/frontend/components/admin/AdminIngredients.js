@@ -702,9 +702,22 @@ class AdminIngredients extends React.PureComponent {
     {(isAdmin || isManager) && <Button raised color="primary"
       align="left"
       component={Link} to="/orders"
-      style = {{marginBottom: 10, marginTop: 30}}
-      > Document Order for Ingredients</Button>}
-      {isAdmin && <p><font size="5">Ingredient Bulk Import</font></p>}
+      style={{
+        marginBottom: 10,
+        marginTop: 30,
+        backgroundColor: '#DAA520', // Gold background color
+        color: 'white', // White text color
+        padding: '10px 20px',
+        fontWeight: 'bold',
+        textTransform: 'uppercase',
+        borderRadius: '5px',
+        boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
+        transition: 'all 0.3s ease',
+      }}
+      onMouseOver={(e) => (e.target.style.backgroundColor = '#F7E7CE')} // Lighter gold on hover
+      onMouseOut={(e) => (e.target.style.backgroundColor = '#DAA520')} // Gold background on mouse out
+      >Document Order for Ingredients</Button>}
+      {isAdmin && <p><font size="5">Ingredients Import</font></p>}
       {isAdmin && <input type="file"
         name="myFile"
         onChange={this.uploadFile} /> }

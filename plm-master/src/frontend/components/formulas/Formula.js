@@ -74,11 +74,24 @@ const styles = theme => ({
 });
 
 const AddButton = ({ onExecute }) => (
-  <div style={{ textAlign: 'center' }}>
+  <div style={{ textAlign: 'center', margin: '20px 0' }}>
     <Button
-      color="primary"
+      style={{
+        backgroundColor: '#DAA520', // Gold background
+        color: '#fff', // White text color
+        padding: '10px 20px', // Adjust padding for better appearance
+        fontSize: '16px', // Slightly larger font
+        fontWeight: 'bold',
+        borderRadius: '8px', // Rounded corners
+        textTransform: 'uppercase', // Uppercase text
+        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.2)', // Add shadow
+        transition: 'all 0.3s ease', // Smooth hover effect
+      }}
+      onMouseOver={(e) => (e.currentTarget.style.backgroundColor = '#F7E7CE')} // Light gold on hover
+      onMouseOut={(e) => (e.currentTarget.style.backgroundColor = '#DAA520')} // Reset to original color
       title="Create New Formula"
-      component={Link} to={{pathname: '/formula-details', state:{isCreateNew: true} }}
+      component={Link}
+      to={{ pathname: '/formula-details', state: { isCreateNew: true } }}
     >
       New
     </Button>
@@ -400,7 +413,18 @@ class Formula extends React.PureComponent {
     } = this.state;
     return(
       <div>
-      <p><b><font size="6" color="3F51B5">Formula</font></b></p>
+       <p style={{
+        
+        fontSize: "28px",    // Larger font size
+        fontWeight: "normal",  // Bold font weight
+        color: "#DAA520",    // Gold color
+        margin: "20px 0",    // Top and bottom spacing
+        textTransform: "uppercase", // Make it uppercase
+        textShadow: "1px 1px 2px rgba(0, 0, 0, 0.3)", // Add subtle shadow
+      }}>
+        Formulas
+      </p>
+
       <Paper>
         <Grid
           allowColumnResizing = {true}
@@ -497,11 +521,11 @@ class Formula extends React.PureComponent {
       }
     </Paper>
     {/* <Paper styles = {{color : "#42f4d9"}} > */}
-      {isAdmin && <p><font size="5">Final Formula Bulk Import</font></p>}
+      {isAdmin && <p><font size="5">Final Formula Import</font></p>}
       {isAdmin && <input type="file"
         name="myFile"
         onChange={this.uploadFile} /> }
-      {isAdmin && <p><font size="5">Intermediate Product Formula Bulk Import</font></p>}
+      {isAdmin && <p><font size="5">Intermediate Product Formula Import</font></p>}
       {isAdmin && <input type="file"
         name="myFile"
         onChange={this.uploadFileInter} /> }

@@ -138,8 +138,8 @@ class Product extends React.PureComponent {
       ],
       unchangedRows: [],
       dates: [],
-      startDate: new Date(2018, 0, 1, 0, 0, 0, 0),
-      endDate: new Date(2018, 11, 31, 23, 59, 59, 0),
+      startDate: new Date(2025, 0, 1, 0, 0, 0, 0),
+      endDate: new Date(2025, 11, 31, 23, 59, 59, 0),
       currentPage: 0,
       pageSize: 10,
       pageSizes: [100, 250, 500],
@@ -286,7 +286,19 @@ class Product extends React.PureComponent {
 
     return (
       <div>
-      <p><b><font size="6" color="3F51B5">Production List</font></b></p> 
+        <p
+          style={{
+            fontSize: '28px', // Adjust the size as needed
+            fontWeight: 'normal', // Normal weight
+            color: '#DAA520', // Gold color
+            margin: '20px 0', // Add spacing
+            textTransform: 'uppercase', // Make it uppercase
+             // Align it to the center
+            textShadow: '1px 1px 2px rgba(0, 0, 0, 0.3)', // Add subtle shadow
+          }}
+        >
+          Production List
+        </p>
       <Paper style={{ position: 'relative' }}>
         <Fragment>
         <br/>

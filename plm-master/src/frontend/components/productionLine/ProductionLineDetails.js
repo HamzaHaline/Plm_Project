@@ -222,11 +222,23 @@ async loadProductionLine(){
     return (
       <div>
       {(this.state.isCreateNew) ? 
-          <p><b><font size="6" color="3F51B5">New Production Line</font></b></p> :
+          <p
+          style={{
+            fontSize: '28px', // Adjust the size as needed
+            fontWeight: 'normal', // Normal weight
+            color: '#DAA520', // Gold color
+            margin: '20px 0', // Add spacing
+            textTransform: 'uppercase', // Make it uppercase
+            textAlign: 'left', // Center-align the text
+            textShadow: '1px 1px 2px rgba(0, 0, 0, 0.3)', // Add subtle shadow
+          }}
+        >
+          New Production Line
+        </p>
+         :
           <p><b><font size="6" color="3F51B5">Production Line Details</font></b></p>
         }
       <form onSubmit={this.onFormSubmit} style={styles.formControl}>
-        <p><font size="5">Basic Information</font></p>
           <FormGroup>
             <TextField
               disabled = {this.state.isDisabled}
@@ -287,14 +299,21 @@ async loadProductionLine(){
               required
             />}
            {!this.state.isIdle &&(this.state.isDisabled && (isAdmin || isManager)) && <RaisedButton raised color="default" onClick={()=>this.markComplete()}>Complete</RaisedButton>}
+              
               <div style={styles.buttons}>
                 {(this.state.isDisabled && isAdmin) && <RaisedButton raised color = "secondary" onClick={()=>{this.setState({isDisabled:false});}} >EDIT</RaisedButton>}
                 {(!this.state.canUpdatePL && !isAdmin && isManager) && <RaisedButton raised color = "secondary" onClick={()=>{this.setState({canUpdatePL:true});}} >EDIT</RaisedButton>}
                 {( (!this.state.isDisabled) || (this.state.canUpdatePL) )&& 
-                  <RaisedButton raised
-                      color="primary"
-                      type="Submit"
-                      primary="true"
+                  <RaisedButton       style={{
+                    backgroundColor: '#DAA520', // Gold background
+                    color: '#fff', // White text
+                    fontWeight: 'bold',
+                    margin: '10px', // Add margin for spacing
+                    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', // Subtle shadow
+                  }}
+                  onClick={() => {
+                    this.setState({ isDisabled: false });
+                  }}
                   > {(this.state.isCreateNew)? 'ADD' : 'SAVE'} </RaisedButton>}
 
                 {this.props.location.state.fromLogs?
@@ -306,6 +325,7 @@ async loadProductionLine(){
                   > BACK </RaisedButton>
                 }
              </div>
+             
            </form>
             {fireRedirect && (<Redirect to={'/production-line'}/>)}
             {pageNotFound && (<Redirect to={'/pagenotfound'}/>)}

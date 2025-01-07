@@ -188,7 +188,18 @@ class Storage extends React.PureComponent {
 
     return (
     <div>
-      <p><b><font size="6" color="3F51B5">Storage</font></b></p> 
+      
+      <p style={{
+        
+        fontSize: "28px",    // Larger font size
+        fontWeight: "normal",  // Bold font weight
+        color: "#DAA520",    // Gold color
+        margin: "20px 0",    // Top and bottom spacing
+        textTransform: "uppercase", // Make it uppercase
+        textShadow: "1px 1px 2px rgba(0, 0, 0, 0.3)", // Add subtle shadow
+      }}>
+        Storage
+      </p>
       <Paper>
         <Grid
           allowColumnResizing = {true}

@@ -632,8 +632,22 @@ class ShoppingCart extends React.Component {
         {(isAdmin || isManager) && <Button raised color="primary"
                   align="left"
                   component={Link} to="/orders"
-                  style = {{marginLeft: 20, marginBottom: 30}}
-                  > Document Orders for Ingredients</Button>}
+                  style={{
+                    marginLeft: 20,
+                    marginBottom: 30,
+                    padding: "12px 24px", // Adjusted padding for larger button
+                    backgroundColor: "#D4AF37", // Gold color
+                    color: "white", // White text for contrast
+                    borderRadius: "8px", // Rounded corners
+                    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)", // Add a subtle shadow
+                    fontWeight: "bold", // Bold text
+                    fontSize: "16px", // Slightly larger font
+                    textTransform: "uppercase", // Uppercase text
+                    transition: "all 0.3s ease", // Smooth hover effect
+                  }}
+                  onMouseOver={(e) => (e.target.style.backgroundColor = "#bfa133")} // Darker gold on hover
+                  onMouseOut={(e) => (e.target.style.backgroundColor = "#D4AF37")} // Restore original gold
+                  >Document Orders for Ingredients</Button>}
         {this.state.rows.length!=0 && <Button raised
                   color="secondary"
                   component = {Link} to = "/cart" //commented out because it overrides onSubmit

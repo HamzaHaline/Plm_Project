@@ -322,7 +322,19 @@ class Orders extends React.PureComponent{
       fireRedirect ,ingredient_options,vendor_options} = this.state;
     return (
         <div>
-        <p><b><font size="6" color="3F51B5">Document an Order</font></b></p> 
+      
+        <p
+          style={{
+            fontSize: '28px',
+            fontWeight: 'normal',
+            color: '#DAA520',
+            margin: '20px 0',
+            textTransform: 'uppercase',
+            textShadow: '1px 1px 2px rgba(0, 0, 0, 0.3)',
+          }}
+        >
+          Document an Order
+        </p>
             <form style={{width:400}} onSubmit={this.onFormSubmit} >
               <div style = {styles.buttons}>
                  <p><font size="3">Ingredient Name:</font></p>

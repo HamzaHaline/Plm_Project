@@ -84,9 +84,20 @@ FilterCell.propTypes = {
 const AddButton = ({ onExecute }) => (
   <div style={{ textAlign: 'center' }}>
     <Button
-      color="primary"
+      style={{
+        backgroundColor: '#DAA520', // Gold background
+        color: '#fff', // White text
+        fontWeight: 'bold', // Bold font
+        padding: '10px 20px', // Add padding for a better look
+        borderRadius: '5px', // Rounded corners
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', // Subtle shadow
+        transition: 'background-color 0.3s ease', // Smooth hover transition
+      }}
+      onMouseOver={(e) => (e.currentTarget.style.backgroundColor = '#FFD700')} // Lighter gold on hover
+      onMouseOut={(e) => (e.currentTarget.style.backgroundColor = '#DAA520')} // Original gold on hover out
       title="Create New Production Line"
-      component={Link} to={{pathname: '/production-line-details', state:{isCreateNew: true} }}
+      component={Link} 
+      to={{ pathname: '/production-line-details', state: { isCreateNew: true } }}
     >
       New
     </Button>
@@ -312,7 +323,17 @@ class ProductionLine extends React.PureComponent {
     } = this.state;
     return(
       <div>
-       <p><b><font size="6" color="3F51B5">Production Line</font></b></p> 
+              <p style={{
+        
+        fontSize: "28px",    // Larger font size
+        fontWeight: "normal",  // Bold font weight
+        color: "#DAA520",    // Gold color
+        margin: "20px 0",    // Top and bottom spacing
+        textTransform: "uppercase", // Make it uppercase
+        textShadow: "1px 1px 2px rgba(0, 0, 0, 0.3)", // Add subtle shadow
+      }}>
+        Production Line
+      </p>
       <Paper>
         <Grid
           allowColumnResizing = {true}

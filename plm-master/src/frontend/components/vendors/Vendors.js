@@ -53,14 +53,27 @@ FilterCell.propTypes = {
 
 const AddButton = ({ onExecute }) => (
   <div style={{ textAlign: 'center' }}>
-    <Button
-      color="primary"
-      title="Create New Vendor"
-      component={Link} to={{pathname: '/addVendorForm'}}
-    >
-      New
-    </Button>
-  </div>
+  <Button
+    color="primary"
+    title="Create New Vendor"
+    component={Link}
+    to={{ pathname: '/addVendorForm' }}
+    style={{
+      backgroundColor: '#D4AF37', // Gold color for luxury
+      color: 'white', // White text for contrast
+      fontWeight: 'bold', // Bold text
+      borderRadius: '8px', // Rounded corners
+      padding: '10px 20px', // Padding for a larger button
+      boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.3)', // Subtle shadow for depth
+      transition: 'all 0.3s ease', // Smooth hover effect
+      textTransform: 'uppercase', // Uppercase text
+    }}
+    onMouseOver={(e) => (e.target.style.backgroundColor = '#B8860B')} // Darker gold on hover
+    onMouseOut={(e) => (e.target.style.backgroundColor = '#D4AF37')} // Original gold color
+  >
+    New
+  </Button>
+</div>
 );
 AddButton.propTypes = {
   onExecute: PropTypes.func.isRequired,
@@ -294,7 +307,18 @@ class Vendors extends React.PureComponent
 
     return (
       <div>
-      <p><b><font size="6" color="3F51B5">Vendors</font></b></p>
+      <p style={{
+        
+        fontSize: "28px",    // Larger font size
+        fontWeight: "normal",  // Bold font weight
+        color: "#DAA520",    // Gold color
+        margin: "20px 0",    // Top and bottom spacing
+        textTransform: "uppercase", // Make it uppercase
+        textShadow: "1px 1px 2px rgba(0, 0, 0, 0.3)", // Add subtle shadow
+      }}>
+        Vendors
+      </p>
+
 
       <Paper>
         <Grid

@@ -22,6 +22,8 @@ import Button from 'material-ui/Button';
 import {Link} from 'react-router-dom';
 import ExitToApp from 'material-ui-icons/ExitToApp';
 import MainList from './MainList'
+import luxuryImage from '../../a.png';
+
 
 const drawerWidth = 230;
 
@@ -68,6 +70,24 @@ const styles = theme => ({
   drawerPaper: {
     position: 'relative',
     height: '100%',
+    width: 230, // Sidebar width
+    backgroundColor: '#333', // Set the sidebar background color (dark gray)
+    color: '#fff', // Set text color
+    fontFamily: 'Arial, sans-serif', // Set custom font
+    padding: '10px 0', // Add padding inside the sidebar
+  },
+  drawerHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#444', // Darker color for the header area
+    padding: '20px 10px', // Add padding for spacing
+    borderBottom: '1px solid #555', // Optional border for separation
+  },
+  
+  drawerPaper: {
+    position: 'relative',
+    height: '100%',
     width: drawerWidth,
   },
   drawerHeader: {
@@ -77,6 +97,7 @@ const styles = theme => ({
     padding: '0 8px',
     ...theme.mixins.toolbar,
   },
+  
   content: {
     width: '100%',
     flexGrow: 1,
@@ -93,6 +114,7 @@ const styles = theme => ({
       marginTop: 64,
     },
   },
+
 
   contentShift: {
     transition: theme.transitions.create('margin', {
@@ -182,6 +204,7 @@ class PersistentDrawer extends React.Component {
     const { classes, theme } = this.props;
     const { anchor, open } = this.state;
     const drawer = user && (
+       
        <Drawer
         type="permanent"
         classes={{
@@ -191,11 +214,31 @@ class PersistentDrawer extends React.Component {
         open={open}
       >
         <div className={classes.drawerInner}>
-          <div className={classes.drawerHeader}>
-            {/* <IconButton onClick={this.handleDrawerClose}>
+        <div
+            className={classes.drawerHeader}
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              padding: "10px 0",
+              backgroundColor: "#f4f4f4", // Light gray background for contrast
+            }}
+          >
+                <img
+                  src={luxuryImage}
+                  alt="Luxury Logo"
+                  style={{
+                    width: "150px",
+                    height: "auto",
+                    display: "block",
+                  }}
+                />
+        </div>
+          
+            {/* Add the logo */}
+                        {/* <IconButton onClick={this.handleDrawerClose}>
               {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
             </IconButton> */}
-          </div>
           <Divider />
           {isAdmin && <List className={classes.list}>{AdminItems}</List> }
           <Divider />
@@ -216,12 +259,16 @@ class PersistentDrawer extends React.Component {
     return (
       <div className={classes.root}>
         <div className={classes.appFrame}>
-          {this.state.loggedIn && <AppBar style={{marginLeft: 180}}
-            className={classNames(classes.appBar, {
-              [classes.appBarShift]: open,
-              [classes[`appBarShift-${anchor}`]]: open,
-            })}
-          >
+          {this.state.loggedIn && <AppBar  style={{
+                marginLeft: 180,
+                backgroundColor: '#4a4a4a', // Dark gray color
+              }}
+              className={classNames(classes.appBar, {
+                [classes.appBarShift]: open,
+                [classes[`appBarShift-${anchor}`]]: open,
+              })}
+            >
+        
             <Toolbar disableGutters={!open}>
               <IconButton
                 color="inherit"
@@ -231,10 +278,20 @@ class PersistentDrawer extends React.Component {
               >
                 <MenuIcon />
               </IconButton>
-              <Typography type="title" className={classes.flex} color="inherit" style={{marginLeft: 180}} noWrap>
+              <Typography type="title" className={classes.flex} color="inherit" style={{
+                marginTop: "25px",
+                marginBottom: "auto",
+                textAlign: "center",
+                marginLeft: "200px",
+                fontSize: "24px",
+                fontWeight: "bold",
+                height: "67px",
+                color: "white",
+                textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
+              }} noWrap> LUXURY PERFUMER
 
               </Typography>
-              <Button raised color="secondary" style={{marginRight: 30}} onClick={this.logout} component={Link} to="/"><ExitToApp className={classes.icon}/> Logout</Button>
+              <Button raised color="secondary" style={{ marginRight: 30, padding: "12px 30px", backgroundColor: "#e53935", color: "white", borderRadius: "10px", boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)", fontSize: "16px", textTransform: "uppercase", fontWeight: "bold", cursor: "pointer", transition: "all 0.3s ease" }} onMouseOver={(e) => (e.target.style.backgroundColor = "#b71c1c")} onMouseOut={(e) => (e.target.style.backgroundColor = "#e53935")} onClick={this.logout} component={Link} to="/"><ExitToApp className={classes.icon} style={{ marginRight: "8px" }} /> Logout</Button>
             </Toolbar>
           </AppBar>}
           {before}
@@ -248,6 +305,22 @@ class PersistentDrawer extends React.Component {
             {!this.state.loggedIn && <Login login={this.login}/>}
           </main>
           {after}
+                {/* Add the Footer Here */}
+            <footer
+              style={{
+                backgroundColor: "#4a4a4a",
+                color: "white",
+                textAlign: "center",
+                padding: "10px 0",
+                position: "fixed", // Fixed at the bottom
+                bottom: 0,
+                width: "100%",
+              }}
+            >
+              <Typography variant="body1">
+                © 2025 Luxury Perfumer. All rights reserved.
+              </Typography>
+            </footer>
         </div>
       </div>
     );

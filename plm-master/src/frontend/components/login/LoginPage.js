@@ -23,30 +23,53 @@ import IconButton from 'material-ui/IconButton';
 
 import axios from 'axios';
 import PubSub from 'pubsub-js';
+import luxuryImage from '../../a.png';
 // import * as userActions from  '../../interface/userInterface';
 const queryString = require('query-string');
 
 const styles = {
-    buttons: {
-      marginTop: 30,
-      float: 'center'
-    },
-    saveButton: {
-      marginLeft: 5
-    },
-    paper: {
-      padding: 50,
-      width: 500,
-      textAlign: 'center',
-      marginLeft: 'auto',
-      marginRight: 'auto',
-      marginTop: 50
-    },
-    media: {
-      height: 200,
-      width: 500,
-    },
-  };
+  buttons: {
+    marginTop: 30,
+    display: 'flex', // Align buttons in a row
+    justifyContent: 'center', // Center buttons horizontally
+    gap: '15px', // Space between buttons
+  },
+  saveButton: {
+    padding: '20px 25px', // Adjusted padding for a larger button
+    backgroundColor: '#007BFF', // Modern blue color
+    color: '#fff', // White text for contrast
+    borderRadius: '15px', // Slightly rounded corners
+    border: 'none', // Removes default border
+    fontSize: '16px', // Larger font size
+    cursor: 'pointer', // Pointer cursor on hover
+    boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)', // Subtle shadow for depth
+    transition: 'background-color 0.3s ease, transform 0.2s ease', // Smooth hover and click effect
+  },
+  saveButtonHover: {
+    backgroundColor: '#0056b3', // Slightly darker blue on hover
+  },
+  saveButtonActive: {
+    transform: 'scale(0.95)', // Slight shrinking effect when clicked
+  },
+  paper: {
+    padding: 50,
+    width: 500,
+    textAlign: 'center',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: 50,
+    borderRadius: '20px', // Rounded corners for the card
+    boxShadow: '0px 8px 15px rgba(0, 0, 0, 0.2)', // Clean shadow for depth
+    backgroundColor: '#f9f9f9', // Light gray background
+  },
+  media: {
+    height: 200,
+    width: 500,
+    borderRadius: '20px', // Matches the card's rounded corners
+    objectFit: 'cover', // Ensures proper image scaling
+  },
+};
+
 
   const required = (value) => {
   if (!value.toString().trim().length) {
@@ -214,39 +237,122 @@ handleMouseDownPassword(event){
   render (){
     const { name, contact, code,fireRedirect, oAuthHref } = this.state;
     return (
-            <div>
-            <AppBar style={{height:60}}>
-              <Typography style={{marginTop: 'auto', marginBottom: 'auto', textAlign:'center'}} type="title" color="inherit" noWrap>
-                Real Producers
-              </Typography>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              minHeight: "100vh",
+              background: "linear-gradient(to bottom, #f5f5f5, #e9e9e9)", // Gradient background
+              backgroundSize: "cover", // Ensures the gradient covers the full viewport
+              backgroundAttachment: "fixed", // Fixes the background in place
+              margin: 0, // Removes any default margin
+            }}
+          >
+    
+          <AppBar
+            style={{
+              height: 60,
+              background: "linear-gradient(90deg, #1a1a1a, #4a4a4a)",
+              boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.5)",
+            }}
+          >
+            <Typography
+              style={{
+                marginTop: "auto",
+                marginBottom: "auto",
+                textAlign: "center",
+                fontSize: "24px",
+                fontWeight: "bold",
+                color: "white",
+                textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
+              }}
+              color="inherit"
+              noWrap
+            >
+              LUXURY PERFUMER
+            </Typography>
           </AppBar>
-            <Card style={styles.paper}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              minHeight: "100vh",
+              background: "linear-gradient(to bottom, #f5f5f5, #e9e9e9)", // Gradient background
+              backgroundSize: "cover", // Ensures the gradient covers the full viewport
+              backgroundAttachment: "fixed", // Fixes the background in place
+              margin: 0, // Removes any default margin
+              paddingTop: "50px", // Pushes the card upwards slightly
+            }}
+          ></div>
+            <Card style={{ ...styles.paper, marginTop: "-400px" }}>
             <CardMedia
-          style={styles.media}
-          image="https://t3.ftcdn.net/jpg/01/27/38/98/240_F_127389862_pMUoWAQMoKsq6QOrF8kq8S9KaXOCjlHP.jpg"
-        />
+            style={{
+              height: 300, // Adjust the height as needed
+              width: '100%', // Adjust the width as needed
+              objectFit: 'cover', // Ensures the image scales correctly
+              borderRadius: '10px', // Optional for rounded corners
+              boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.3)', // Optional for shadow
+            }}
+            image={luxuryImage}
+            title="Luxury Perfume"
+          />
+        
             <form style={{width: 500}} onSubmit={this.onFormSubmit}>
+      
                 <TextField
-                    required
-                    fullWidth={true}
-                    label="Username"
-                    value={this.state.username}
-                    onChange = {(event) => this.setState({ username: event.target.value})}
-                    margin="normal"
-                    validations={[required]}
+                  required
+                  fullWidth
+                  label="Username"
+                  value={this.state.username}
+                  onChange={(event) => this.setState({ username: event.target.value })}
+                  margin="normal"
+                  variant="outlined"
+                  style={{
+                    backgroundColor: '#f9f9f9', // Light background inside the input
+                    borderRadius: '10px', // Rounded corners for the input
+                    boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.1)', // Slight shadow for the input
+                    marginBottom: '20px', // Space between username and password
+                  }}
+                  InputLabelProps={{
+                    style: { color: '#888' }, // Label color
+                  }}
+                  inputProps={{
+                    style: {
+                      padding: '15px', // Padding inside the input
+                    },
+                  }}
                 />
+                
+                
 
-                <FormControl fullWidth required>
-                  <InputLabel htmlFor="password">Password</InputLabel>
-                  <Input
-                    id="password"
-                    name="password"
-                    label="Password"
-                    
-                    type={this.state.showPassword ? 'text' : 'password'}
-                    value={this.state.password}
-                    onChange={(event) => this.setState({ password: event.target.value})}
-                    endAdornment={
+                {/* Password Field */}
+                <TextField
+                  required
+                  fullWidth
+                  label="Password" // This will act as the floating label
+                  type={this.state.showPassword ? "text" : "password"} // Toggle password visibility
+                  value={this.state.password}
+                  onChange={(event) => this.setState({ password: event.target.value })}
+                  margin="normal"
+                  variant="outlined"
+                  style={{
+                    backgroundColor: '#f9f9f9', // Light background inside the input
+                    borderRadius: '10px', // Rounded corners for the input
+                    boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.1)', // Slight shadow for the input
+                    marginBottom: '20px', // Space below the password field
+                  }}
+                  InputLabelProps={{
+                    style: { color: '#888' }, // Label color
+                  }}
+                  inputProps={{
+                    style: {
+                      padding: '15px', // Padding inside the input
+                    },
+                  }}
+                  InputProps={{
+                    endAdornment: (
                       <InputAdornment position="end">
                         <IconButton
                           onClick={this.handleClickShowPasssword}
@@ -255,25 +361,96 @@ handleMouseDownPassword(event){
                           {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
                         </IconButton>
                       </InputAdornment>
-                        }
-                      />
-               </FormControl>
+                    ),
+                  }}
+                />
 
-              <div style={styles.buttons}>
 
-                  <RaisedButton raised color = "secondary" onClick={this.handleLogin}
-                   primary="true" type="Submit" >LOGIN</RaisedButton>
-                  
-                  <RaisedButton raised
-                  style={{marginLeft: 10}}
-                  color = "primary"
-                  href = {this.state.oAuthHref}
-                  > Duke Log In </RaisedButton>    
 
-             </div>
+                <div style={styles.buttons}>
+                  <RaisedButton
+                    raised
+                    color="primary"
+                    onClick={this.handleLogin}
+                    type="Submit"
+                    style={{
+                      padding: "12px 30px",
+                      backgroundColor: "#D4AF37", // Bright pink color for login button
+                      color: "white",
+                      borderRadius: "10px", // Rounded corners
+                      boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)", // Add shadow for depth
+                      fontSize: "16px", // Increase font size
+                      textTransform: "uppercase",
+                      fontWeight: "bold",
+                      cursor: "pointer",
+                      transition: "all 0.3s ease", // Smooth hover effect
+                    }}
+                    onMouseOver={(e) => (e.target.style.backgroundColor = "#c2185b")} // Slightly darker on hover
+                    onMouseOut={(e) => (e.target.style.backgroundColor = "#e91e63")} // Restore on mouse out
+                  >
+                    LOGIN
+                  </RaisedButton>
+                  <RaisedButton
+                    raised
+                    color="secondary"
+                    style={{
+                      padding: "12px 30px",
+                      backgroundColor: "#e53935", // Bright red color for logout button
+                      color: "white",
+                      borderRadius: "10px", // Rounded corners
+                      boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)", // Add shadow for depth
+                      fontSize: "16px", // Increase font size
+                      textTransform: "uppercase",
+                      fontWeight: "bold",
+                      cursor: "pointer",
+                      transition: "all 0.3s ease", // Smooth hover effect
+                    }}
+                    onMouseOver={(e) => (e.target.style.backgroundColor = "#b71c1c")} // Slightly darker on hover
+                    onMouseOut={(e) => (e.target.style.backgroundColor = "#e53935")} // Restore on mouse out
+                    onClick={() => {
+                      // Perform logout logic
+                      sessionStorage.removeItem("user"); // Clear session data or authentication token
+                      alert("You have successfully logged out!"); // Optional feedback message
+                      
+                      // Close the page
+                      window.close(); // Closes the current tab
+                    }}
+                  >
+                    Logout
+                  </RaisedButton>
+
+                </div>
+
            </form>
+           
+
            </Card>
+           {/* Footer Section */}
+           
+            <div
+              style={{
+                backgroundColor: "#333333",
+                position: "fixed",
+                bottom: 0,
+                left: 0,
+                width: "100%",
+                textAlign: "center",
+                color: "#fff",
+                padding: "15px 0", // Add padding
+                fontSize: "14px",
+                fontWeight: "lighter", // Softer font weight
+                boxShadow: "0px -4px 10px rgba(0, 0, 0, 0.2)", // Add shadow on top
+              }}
+            >
+              <Typography variant="body2" style={{ color: "#ccc" }}>
+                © 2025 - Developed by Hamza HALINE Anis HENTIT | Private License
+              </Typography>
+              
+            </div>
+
          </div>
+         
+         
 
     )
 	}

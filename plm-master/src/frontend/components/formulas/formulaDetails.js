@@ -353,11 +353,10 @@ class FormulaDetails extends React.Component{
       // <PageBase title = 'Add Ingredients' navigation = '/Application Form'>
       <div>
       {(this.state.isCreateNew) ? 
-          <p><b><font size="6" color="3F51B5">New Formula</font></b></p> :
+          <p><b><font size="6" color="#DAA520">New Formula</font></b></p> :
           <p><b><font size="6" color="3F51B5">Formula Details </font></b></p>
         }
       <form onSubmit={this.onFormSubmit} style={styles.formControl}>
-        <p><font size="5">Basic Information</font></p>
         {/* {(this.state.numUnit!=0)? <Chip label="In Stock"/> : ''} */}
           <FormGroup>
             <TextField
@@ -506,24 +505,91 @@ class FormulaDetails extends React.Component{
           </FormControl>
           {(this.state.isCreateNew && (this.state.numUnitPerPackage!=0)) && <p>{(this.state.unitsProvided/this.state.numUnitPerPackage).toFixed(2)} packages will be produced</p>}
           </div>}
-              <div style={styles.buttons}>
-                {(this.state.isDisabled && isAdmin) && <RaisedButton raised color = "secondary" onClick={()=>{this.setState({isDisabled:false});}} >EDIT</RaisedButton>}
-                {(!this.state.canUpdatePL && !isAdmin && isManager) && <RaisedButton raised color = "secondary" onClick={()=>{this.setState({canUpdatePL:true});}} >EDIT</RaisedButton>}
-                {( (!this.state.isDisabled) || (this.state.canUpdatePL) ) && <RaisedButton raised
-                          color="primary"
-                          // className=classes.button
-                          type="Submit"
-                          primary="true"
-                          > {(this.state.isCreateNew)? 'ADD' : 'SAVE'} </RaisedButton>}
-                {this.props.location.state.fromLogs?
-                  <RaisedButton raised color="default" component={Link} to='/log'
-                  style = {{marginLeft: 10}}> BACK </RaisedButton>:
-                  <RaisedButton raised color="default"
-                  component={Link} to='/formula'
-                  style = {{marginLeft: 10}}
-                  > BACK </RaisedButton>
-                }
-             </div>
+          <div style={{ display: 'flex', justifyContent: 'left', gap: '15px', marginTop: '30px' }}>
+              {(this.state.isDisabled && isAdmin) && (
+                <RaisedButton
+                  raised
+                  onClick={() => { this.setState({ isDisabled: false }); }}
+                  style={{
+                    backgroundColor: '#DAA520', // Gold color
+                    color: '#fff', // White text
+                    fontWeight: 'bold',
+                    borderRadius: '5px',
+                    padding: '10px 20px',
+                    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                  }}
+                >
+                  EDIT
+                </RaisedButton>
+              )}
+              {(!this.state.canUpdatePL && !isAdmin && isManager) && (
+                <RaisedButton
+                  raised
+                  onClick={() => { this.setState({ canUpdatePL: true }); }}
+                  style={{
+                    backgroundColor: '#DAA520', // Gold color
+                    color: '#fff', // White text
+                    fontWeight: 'bold',
+                    borderRadius: '5px',
+                    padding: '10px 20px',
+                    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                  }}
+                >
+                  EDIT
+                </RaisedButton>
+              )}
+              {((!this.state.isDisabled) || (this.state.canUpdatePL)) && (
+                <RaisedButton
+                  raised
+                  type="Submit"
+                  primary="true"
+                  style={{
+                    backgroundColor: '#DAA520', // Gold color
+                    color: '#fff', // White text
+                    fontWeight: 'bold',
+                    borderRadius: '5px',
+                    padding: '10px 20px',
+                    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                  }}
+                >
+                  {(this.state.isCreateNew) ? 'ADD' : 'SAVE'}
+                </RaisedButton>
+              )}
+              {this.props.location.state.fromLogs ? (
+                <RaisedButton
+                  raised
+                  component={Link}
+                  to="/log"
+                  style={{
+                    backgroundColor: '#E0E0E0', // Light gray for secondary buttons
+                    color: '#333', // Dark text
+                    fontWeight: 'bold',
+                    borderRadius: '5px',
+                    padding: '10px 20px',
+                    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                  }}
+                >
+                  BACK
+                </RaisedButton>
+              ) : (
+                <RaisedButton
+                  raised
+                  component={Link}
+                  to="/formula"
+                  style={{
+                    backgroundColor: '#E0E0E0', // Light gray for secondary buttons
+                    color: '#333', // Dark text
+                    fontWeight: 'bold',
+                    borderRadius: '5px',
+                    padding: '10px 20px',
+                    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                  }}
+                >
+                  BACK
+                </RaisedButton>
+              )}
+            </div>
+
            </form>
                       {fireRedirect && (
              <Redirect to={'/formula'}/>

@@ -1,11 +1,14 @@
 # To get it running
+cd plm-master
 
 * run "npm install"
 
 * run "npm start" to run the front-end
 
 * If there is an error please install the packages required
-* 
+
+Credentials : username :admin
+              password :whatismongoose
 
 ## To install everything
 
@@ -16,6 +19,8 @@
 * To install MongoDB: follow [the instructions](https://nodejs.org/en/download/package-manager/) on the official website.
 
 ## To run the server
+
+cd plm-master
 
 * In the folder with server.js file, type "npm install --save"
 

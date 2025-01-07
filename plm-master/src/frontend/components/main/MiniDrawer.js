@@ -33,6 +33,7 @@ const styles = theme => ({
   appBar: {
     position: 'absolute',
     zIndex: theme.zIndex.drawer + 1,
+    
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -57,6 +58,10 @@ const styles = theme => ({
     position: 'relative',
     height: '100%',
     width: drawerWidth,
+    position: "relative",
+    height: "100%",
+    width: drawerWidth,
+    backgroundColor: "#000000",
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
