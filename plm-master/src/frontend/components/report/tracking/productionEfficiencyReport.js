@@ -186,7 +186,9 @@ export default class ProductionEfficiencyReport extends PureComponent {
               <Button
                 raised
                 onClick={(event) => this.loadAllEfficiencies(event)}
-                color="primary">Get Utilization</Button>
+                style={{ backgroundColor: '#DAA520', color: 'White' }} // Ajout du style personnalisé
+  
+                >Get Utilization</Button>
           </div>
           <br/>
 

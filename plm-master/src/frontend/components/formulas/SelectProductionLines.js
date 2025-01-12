@@ -85,6 +85,7 @@ class SelectProductionLines extends Component {
      }
   }
 
+
   addFormula(){
     console.log("addFormula is called");
     var newFormulaName = this.state.selectName;

@@ -550,7 +550,7 @@ class AddIngredientForm extends React.Component{
             New Ingredient
           </p>
          :
-          <p><b><font size="6" color="3F51B5">Ingredient Details {(this.state.numUnit!=0)? <Chip label="In Stock"/> : ''} </font></b></p>
+          <p><b><font size="6" color="#DAA520">Ingredient Details {(this.state.numUnit!=0)? <Chip label="In Stock"/> : ''} </font></b></p>
         }
         
         {/* {this.state.snackBarOpen && <SnackBarDisplay

@@ -13,10 +13,6 @@
     "start-test-server": "nf start -x 80",
     "start-https": "nf start"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/charliewang95/plm"
-  },
   "keywords": [
     "MEAN",
     "MVC"
@@ -33,6 +29,7 @@
     "axios": "^0.17.1",
     "body-parser": "^1.10.1",
     "bson": "^1.0.4",
+    "chart.js": "^2.9.4",
     "connect-flash": "^0.1.1",
     "csvtojson": "^1.1.9",
     "ejs": "^2.0.6",
@@ -61,6 +58,7 @@
     "query-string": "^5.1.0",
     "rc-datepicker": "^5.0.10",
     "react": "^16.14.0",
+    "react-chartjs-2": "^3.0.0",
     "react-cookies": "^0.1.0",
     "react-date-picker-cs": "^0.1.28",
     "react-datepicker": "^1.2.1",
@@ -80,11 +78,18 @@
     "react-transition-group": "^1.2.1",
     "react-view-engine": "0.0.1",
     "reactstrap": "^4.8.0",
+    "recharts": "^2.15.0",
     "redirect-https": "^1.1.4",
     "redux": "^3.7.2",
     "redux-form": "^7.2.1",
     "redux-form-material-ui": "^5.0.0-beta.2",
     "typeface-roboto": "0.0.54",
     "url_parser": "^1.0.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.26.0",
+    "@babel/preset-env": "^7.26.0",
+    "@babel/preset-react": "^7.26.3",
+    "babel-loader": "^9.2.1"
   }
 }

@@ -396,7 +396,7 @@ class Orders extends React.PureComponent{
                     type="Submit"
                     disabled = {this.state.packageNum==0 || this.state.ingredientName==''}
                     primary="true"> DOCUMENT ORDER </RaisedButton>
-                    <RaisedButton raised color = "secondary"
+                    <RaisedButton raised backgroundColor="#DAA520"
                     style={styles.saveButton}
                     component = {Link} to = "/admin-ingredients"
                     >

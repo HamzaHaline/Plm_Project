@@ -3,14 +3,15 @@ import Paper from 'material-ui/Paper';
 import {
   Grid,
   Table,
-  TableHeaderRow,PagingPanel,DragDropProvider,TableColumnReordering,
+  TableHeaderRow, PagingPanel, DragDropProvider, TableColumnReordering,
 } from '@devexpress/dx-react-grid-material-ui';
 import {
   SortingState, PagingState,
   IntegratedPaging, IntegratedSorting,
 } from '@devexpress/dx-react-grid';
-import Styles from  'react-select/dist/react-select.css';
+import Styles from 'react-select/dist/react-select.css';
 import { withStyles } from 'material-ui/styles';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import dummyData from '../../orders/dummyData';
 import * as ingredientActions from '../../../interface/ingredientInterface';
 import * as testConfig from '../../../../resources/testConfig.js';
@@ -19,7 +20,6 @@ import * as testConfig from '../../../../resources/testConfig.js';
 var sessionId = "";
 // var userId = "";
 const READ_FROM_DATABASE = testConfig.READ_FROM_DATABASE;
-
 
 export default class FreshnessReport extends React.PureComponent {
   constructor(props) {
@@ -32,12 +32,12 @@ export default class FreshnessReport extends React.PureComponent {
         { name: 'worstWaitTime', title: 'Worst-case Wait Time' },
       ],
       rows: [],
-      sorting:[],
+      sorting: [],
       currentPage: 0,
       pageSize: 10,
       pageSizes: [10, 50, 100, 500],
       columnOrder: ['name', 'averageWaitTime', 'worstWaitTime'],
-      overallFreshness:'',
+      overallFreshness: '',
       totalWorstCase: '',
     };
     this.changeSorting = sorting => this.setState({ sorting });
@@ -48,68 +48,72 @@ export default class FreshnessReport extends React.PureComponent {
     };
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.loadAllIngredients();
   }
 
-  async loadAllIngredients(){
+  async loadAllIngredients() {
     var rawData = [];
     sessionId = JSON.parse(sessionStorage.getItem('user'))._id;
-     console.log('getting fresh data '+sessionId);
-     rawData = await ingredientActions.getFreshAsync(sessionId);
-     console.log(rawData);
+    console.log('getting fresh data ' + sessionId);
+    rawData = await ingredientActions.getFreshAsync(sessionId);
+    console.log(rawData);
 
     var processedData = [];
     if (rawData.data) rawData = rawData.data; // to handle response
-    if (rawData){
-      processedData = [...rawData.map((row, index)=> ({
-         id: index,
-         ...row,
-         averageWaitTime: row.averageDay + "d  " + row.averageHour + "h " + row.averageMinute + "m",
-         worstWaitTime: row.oldestDay + "d  " + row.oldestHour + "h " + row.oldestMinute + "m",
-       })),
-     ];
+    if (rawData) {
+      processedData = [...rawData.map((row, index) => ({
+        id: index,
+        ...row,
+        averageWaitTime: row.averageDay + "d  " + row.averageHour + "h " + row.averageMinute + "m",
+        worstWaitTime: row.oldestDay + "d  " + row.oldestHour + "h " + row.oldestMinute + "m",
+      }))];
     }
 
     var totalMinutesSum = 0;
     var worstCase = 0;
-   
 
-    for(var i =0; i < processedData.length;i++){
+    for (var i = 0; i < processedData.length; i++) {
       var tempWorst = 0;
-      totalMinutesSum+=Number(processedData[i].averageDay) * 24 * 60 + Number(processedData[i].averageHour)*60 + Number(processedData[i].averageMinute);
-      tempWorst+=Number(processedData[i].oldestDay) * 24 * 60 + Number(processedData[i].oldestHour)*60 + Number(processedData[i].oldestMinute);
-      if(tempWorst>worstCase){
-        worstCase=Number(processedData[i].oldestDay) + "d  "  + Number(processedData[i].oldestHour)+"h " + Number(processedData[i].oldestMinute) + "m";
+      totalMinutesSum += Number(processedData[i].averageDay) * 24 * 60 + Number(processedData[i].averageHour) * 60 + Number(processedData[i].averageMinute);
+      tempWorst += Number(processedData[i].oldestDay) * 24 * 60 + Number(processedData[i].oldestHour) * 60 + Number(processedData[i].oldestMinute);
+      if (tempWorst > worstCase) {
+        worstCase = Number(processedData[i].oldestDay) + "d  " + Number(processedData[i].oldestHour) + "h " + Number(processedData[i].oldestMinute) + "m";
       }
     }
 
-    if(worstCase==0){
-      this.setState({totalWorstCase:''});
-    }else{
-      this.setState({totalWorstCase:worstCase});
+    if (worstCase == 0) {
+      this.setState({ totalWorstCase: '' });
+    } else {
+      this.setState({ totalWorstCase: worstCase });
     }
     totalMinutesSum = Math.round(totalMinutesSum / processedData.length);
-     this.setState({rows:processedData});
+    this.setState({ rows: processedData });
 
-     var overallDay = Math.floor(totalMinutesSum/24/60);
-     var overallHour = Math.floor(totalMinutesSum/60%24);
-     var overallMin = Math.floor(totalMinutesSum % 60);
-     var overallFreshness = overallDay + "d  " + overallHour + "h " + overallMin + "m";
-     if(isNaN(overallDay)||isNaN(overallHour)||isNaN(overallMin)){
+    var overallDay = Math.floor(totalMinutesSum / 24 / 60);
+    var overallHour = Math.floor(totalMinutesSum / 60 % 24);
+    var overallMin = Math.floor(totalMinutesSum % 60);
+    var overallFreshness = overallDay + "d  " + overallHour + "h " + overallMin + "m";
+    if (isNaN(overallDay) || isNaN(overallHour) || isNaN(overallMin)) {
       overallFreshness = '';
-     }
-     this.setState({overallFreshness:overallFreshness});
-   }
+    }
+    this.setState({ overallFreshness: overallFreshness });
+  }
 
   render() {
-    const {classes,} = this.props;
-    const { rows, columns ,sorting,currentPage,
-      pageSize,pageSizes,columnOrder} = this.state;
+    const { rows, columns, sorting, currentPage, pageSize, pageSizes, columnOrder } = this.state;
+
+    // Prepare data for the chart
+    const chartData = rows.map(row => ({
+      name: row.ingredientName,
+      averageWaitTime: parseInt(row.averageDay) * 24 + parseInt(row.averageHour),
+      worstWaitTime: parseInt(row.oldestDay) * 24 + parseInt(row.oldestHour),
+    }));
+
     return (
       <Paper>
         <Grid
-          allowColumnResizing = {true}
+          allowColumnResizing={true}
           rows={rows}
           columns={columns}
         >
@@ -136,13 +140,29 @@ export default class FreshnessReport extends React.PureComponent {
           />
 
           <TableHeaderRow showSortingControls />
-          <PagingPanel
-            pageSizes={pageSizes}
-          />
+          <PagingPanel pageSizes={pageSizes} />
         </Grid>
-        <p><font style={{marginLeft: 20}} size="4">Overall Freshness: {this.state.overallFreshness}</font></p>
-        <p><font style={{marginLeft: 20}} size="4">Overall Worst-case: {this.state.totalWorstCase}</font></p>
-        <br />
+        <p><font style={{ marginLeft: 20 }} size="4">Overall Freshness: {this.state.overallFreshness}</font></p>
+        <p><font style={{ marginLeft: 20 }} size="4">Overall Worst-case: {this.state.totalWorstCase}</font></p>
+
+        {/* Add Chart Below */}
+        <div style={{ margin: '20px', textAlign: 'center' }}>
+          <h3 style={{ color: '#FFD700' }}>Ingredient Freshness Overview</h3>
+          <BarChart
+            width={800}
+            height={400}
+            data={chartData}
+            margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis label={{ value: 'Hours', angle: -90, position: 'insideLeft' }} />
+            <Tooltip />
+            <Legend />
+            <Bar dataKey="averageWaitTime" fill="#8884d8" name="Average Wait Time (hours)" />
+            <Bar dataKey="worstWaitTime" fill="#82ca9d" name="Worst-case Wait Time (hours)" />
+          </BarChart>
+        </div>
       </Paper>
     );
   }
