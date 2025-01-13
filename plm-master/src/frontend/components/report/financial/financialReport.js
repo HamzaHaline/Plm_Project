@@ -141,8 +141,8 @@ export default class FinancialReport extends React.PureComponent {
           <PagingPanel pageSizes={pageSizes} />
         </Grid>
 
-        <p><font style={{ marginLeft: 20 }} size="4">Overall Ingredient Expenditure: {this.state.totalExpense}</font></p>
-        <p><font style={{ marginLeft: 20 }} size="4">Overall Production Expenditure: {this.state.totalProductionExpense}</font></p>
+        <p><font style={{ marginLeft: 20 }} size="3">Overall Ingredient Expenditure: {this.state.totalExpense}</font></p>
+        <p><font style={{ marginLeft: 20 }} size="3">Overall Production Expenditure: {this.state.totalProductionExpense}</font></p>
 
         {/* Add Pie Chart */}
         <div style={{ margin: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>

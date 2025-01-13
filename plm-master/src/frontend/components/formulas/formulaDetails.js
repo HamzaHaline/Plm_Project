@@ -354,7 +354,7 @@ class FormulaDetails extends React.Component{
       <div>
       {(this.state.isCreateNew) ? 
           <p><b><font size="6" color="#DAA520">New Formula</font></b></p> :
-          <p><b><font size="6" color="3F51B5">Formula Details </font></b></p>
+          <p><b><font size="6" color="#DAA520">Formula Details </font></b></p>
         }
       <form onSubmit={this.onFormSubmit} style={styles.formControl}>
         {/* {(this.state.numUnit!=0)? <Chip label="In Stock"/> : ''} */}
